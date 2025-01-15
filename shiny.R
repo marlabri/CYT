@@ -1,11 +1,11 @@
-
+# Add librarys
 library(shiny)
 library(tidyverse)
 library(dplyr)
 library(et.nwfva)
 library(rBDAT)
 
-# UI-Definition (unverändert) 
+# UI-Definition (angepasst)
 ui <- fluidPage( 
   titlePanel("Ertragstafel- und Biomasse-Generator"), 
   
@@ -25,11 +25,11 @@ ui <- fluidPage(
         step = 1 
       ), 
       sliderInput( 
-        "bonitaet", 
-        "Bonität:", 
-        min = -1, 
-        max = 5, 
-        value = 2, 
+        "relative_bonitaet", 
+        "Relative Bonität:", 
+        min = -2, 
+        max = 4, 
+        value = 1, 
         step = 0.1 
       ), 
       checkboxGroupInput("ausgabe_werte", "Ausgabe Werte:", choices = NULL), 
@@ -53,7 +53,7 @@ ui <- fluidPage(
   ) 
 ) 
 
-# Server-Logik 
+# Server-Logik (angepasst)
 server <- function(input, output, session) { 
   # Baumart-Zuordnung für rBDAT (unverändert) 
   baumart_spp <- c( 
@@ -64,11 +64,11 @@ server <- function(input, output, session) {
     "Eiche" = 17 
   ) 
   
-  # Reaktive Funktion zur Erstellung der Ertragstafel (unverändert) 
+  # Reaktive Funktion zur Erstellung der Ertragstafel (angepasst)
   ertragstafel_daten <- reactive({ 
     tryCatch({ 
       et_tafel(input$baumart, 
-               bon = input$bonitaet, 
+               bon = input$relative_bonitaet, 
                alter = input$alter) 
     }, error = function(e) { 
       data.frame(Fehler = paste("Fehler bei der Erstellung der Tafel:", e$message)) 
@@ -90,7 +90,7 @@ server <- function(input, output, session) {
     } 
   }) 
   
-  # Reaktive Funktion zur Berechnung der Biomasse (aktualisiert) 
+  # Reaktive Funktion zur Berechnung der Biomasse (unverändert)
   biomasse_daten <- reactive({ 
     tafel <- ertragstafel_daten() 
     if (!"Fehler" %in% names(tafel) && !is.null(input$biom)) { 
@@ -139,12 +139,12 @@ server <- function(input, output, session) {
     } else if ("Fehler" %in% names(tafel)) { 
       return("Keine Biomasseberechnung möglich, da Ertragstafel Fehler enthält.") 
     } 
-    else{ 
+    else { 
       return("Bitte wähle einen Biomasse Typ aus") 
     } 
   }) 
   
-  # Ausgabe der Tabelle (unverändert) 
+  # Ausgabe der Tabelle (unverändert)
   output$ertragstafel <- renderTable({ 
     tafel <- ertragstafel_daten() 
     if (!"Fehler" %in% names(tafel)) { 
@@ -154,11 +154,11 @@ server <- function(input, output, session) {
     } 
   }) 
   
-  # Ausgabe der Biomasse (unverändert) 
+  # Ausgabe der Biomasse (unverändert)
   output$biomasse_output <- renderText({ 
     biomasse_daten() 
   }) 
 } 
 
-# Shiny App starten (unverändert) 
-shinyApp(ui = ui, server = server) 
+# Shiny App starten (unverändert)
+shinyApp(ui = ui, server = server)
