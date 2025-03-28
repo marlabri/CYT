@@ -1,0 +1,19 @@
+
+Call:
+lm(formula = GWL_CO2_pred ~ GWL_CO2, data = ET_all$Douglasie[[ekl]])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-25.978  -6.677   1.574   8.269  25.293 
+
+Coefficients:
+            Estimate Std. Error t value            Pr(>|t|)    
+(Intercept) 0.429834   5.464382   0.079               0.938    
+GWL_CO2     0.999642   0.003946 253.323 <0.0000000000000002 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 13.64 on 23 degrees of freedom
+Multiple R-squared:  0.9996,	Adjusted R-squared:  0.9996 
+F-statistic: 6.417e+04 on 1 and 23 DF,  p-value: < 0.00000000000000022
+
